@@ -1,56 +1,81 @@
-# Simulador de Entrevistas Tecnicas para Desenvolvedores
+# Simulador de Entrevistas Técnicas
 
-Este projeto consiste em um bot para o Telegram desenvolvido em Python que simula entrevistas tecnicas de nivel junior. Utilizando engenharia de prompt e processamento de linguagem natural, o sistema atua como um avaliador para as linguagens Java, Python, SQL, JavaScript e C.
+Bot experimental para Telegram que utiliza um modelo de linguagem para gerar perguntas e fornecer feedback em entrevistas técnicas de nível júnior.
 
-## Funcionalidades Principais
-* **Simulacao Dinamica**: O sistema gera perguntas teoricas ou praticas de acordo com a tecnologia selecionada pelo usuario.
-* **Avaliacao e Feedback**: O motor de inteligencia artificial analisa a resposta enviada, indicando pontos corretos, omissoes e melhorias tecnicas.
-* **Persistencia de Dados**: Armazenamento do estado da sessao e do historico de mensagens em banco de dados relacional.
-* **Segurança de Credenciais**: Isolamento completo de tokens de API do Telegram e chaves de acesso externas por meio de variaveis de ambiente.
+O projeto foi criado para praticar integração de APIs, programação assíncrona em Python, persistência com SQLite e uso de LLMs em um fluxo conversacional.
 
-## Arquitetura e Tecnologias
-* **Linguagem**: Python 3
-* **Interface de Comunicacao**: Biblioteca python-telegram-bot (implementacao assincrona)
-* **Processamento de Linguagem Natural**: SDK google-genai (modelo gemini-2.5-flash)
-* **Banco de Dados**: SQLite3 (gerenciamento nativo de tabelas relacionais)
-* **Configuraçao**: python-dotenv
+## Funcionalidades atuais
 
-## Estrutura do Banco de Dados
-O esquema do banco de dados SQLite (`entrevistas.db`) é composto por duas tabelas:
-1. `usuarios`: Registra o identificador do usuario, a tecnologia ativa na sessao e o status atual da entrevista.
-2. `historico_entrevistas`: Armazena a cronologia das interacoes (perguntas do avaliador e respostas do candidato) para manter a consistencia do contexto enviado à API.
+- comando `/start` com instruções;
+- início de entrevista por tecnologia com `/entrevista`;
+- suporte a Python, Java, SQL, JavaScript e C;
+- geração da primeira pergunta pelo Gemini;
+- avaliação da resposta do usuário e geração da pergunta seguinte;
+- controle do estado da entrevista em SQLite;
+- registro local das mensagens da sessão;
+- encerramento e limpeza da sessão com `/parar`;
+- credenciais carregadas por variáveis de ambiente.
 
-## Instruçoes para Execuçao Local
+## Tecnologias
 
-1. **Clonar o Repositorio**:
-   ```bash
-   git clone https://github.com/leonardejhaylson-ui/Simulador-de-Entrevistas-Oficial.git
-   cd Simulador-de-Entrevistas-Oficial
-   ```
+- Python 3
+- python-telegram-bot
+- Google Gen AI SDK
+- Gemini 2.5 Flash
+- SQLite
+- python-dotenv
 
-2. **Configurar o Ambiente Virtual**:
-   ```bash
-   python -m venv .venv
-   # No Windows:
-   .venv\Scripts\activate
-   ```
+## Fluxo
 
-3. **Instalar Dependencias**:
-   ```bash
-   pip install python-telegram-bot google-genai python-dotenv
-   ```
+```text
+Telegram
+   ↓
+Bot Python
+   ├── SQLite (estado e mensagens)
+   └── Gemini API (perguntas e feedback)
+```
 
-4. **Definir as Variaveis de Ambiente**:
-   Crie um arquivo chamado `.env` na raiz do projeto e insira as credenciais:
-   ```text
-   TELEGRAM_TOKEN=insira_o_token_do_telegram
-   GEMINI_API_KEY=insira_a_chave_do_gemini
-   ```
+> O histórico é persistido localmente, mas a implementação atual não reconstrói todo o histórico da conversa no contexto enviado ao modelo. Este repositório deve ser tratado como protótipo de aprendizado, não como plataforma de avaliação técnica validada.
 
-5. **Executar a Aplicaçao**:
-   ```bash
-   python bot.py
-   ```
+## Configuração
 
----
-Projeto de portfólio focado em integraçao de APIs, persistencia relacional e desenvolvimento de backend.
+```bash
+git clone https://github.com/leonardejhaylson-ui/Simulador-de-Entrevistas-Oficial.git
+cd Simulador-de-Entrevistas-Oficial
+
+python -m venv .venv
+```
+
+Ative o ambiente virtual e instale as dependências:
+
+```bash
+pip install -r requirements.txt
+```
+
+Crie um arquivo `.env` local:
+
+```text
+TELEGRAM_TOKEN=
+GEMINI_API_KEY=
+```
+
+Nunca versione credenciais reais.
+
+Execute:
+
+```bash
+python bot.py
+```
+
+## Possíveis evoluções
+
+- enviar ao modelo contexto conversacional controlado;
+- tratar indisponibilidade e erros da API;
+- validar configuração obrigatória no startup;
+- adicionar testes automatizados;
+- separar integração com IA, Telegram e persistência em módulos;
+- criar critérios de avaliação mais reproduzíveis.
+
+## Objetivo de aprendizado
+
+O projeto registra minha prática com bots, APIs externas, persistência relacional e integração de IA. As respostas do LLM são feedback gerado por modelo e não uma avaliação objetiva ou certificação da habilidade do candidato.
